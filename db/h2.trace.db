@@ -1,0 +1,23 @@
+2024-09-18 18:32:14.244686-03:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE cargo [*]IF NOT EXISTS (\000acargo_id int primary key auto_increment,\000anome_cargo varchar(255) not null unique,\000aativo tinyint not null default 1\000a)"; SQL statement:
+CREATE TABLE cargo IF NOT EXISTS (
+cargo_id int primary key auto_increment,
+nome_cargo varchar(255) not null unique,
+ativo tinyint not null default 1
+) [42000-224]
+2024-09-18 20:19:32.776687-03:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FLYWAY_SCHEMA_HISTORY" not found; SQL statement:
+DROP TABLE flyway_schema_history [42102-224]
+2024-09-18 20:19:48.243997-03:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FLYWAY_SCHEMA_HISTORY" not found; SQL statement:
+DROP TABLE `flyway_schema_history` [42102-224]
+2024-09-18 20:20:09.396606-03:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FLYWAY_SCHEMA_HISTORY" not found (candidates are: "flyway_schema_history"); SQL statement:
+SELECT * FROM flyway_schema_history [42103-224]
+2024-09-18 20:22:00.206391-03:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE cargo [*]IF NOT EXISTS (\000acargo_id int primary key auto_increment,\000anome_cargo varchar(255) not null unique,\000aativo tinyint not null default(1)\000a)"; SQL statement:
+CREATE TABLE cargo IF NOT EXISTS (
+cargo_id int primary key auto_increment,
+nome_cargo varchar(255) not null unique,
+ativo tinyint not null default(1)
+) [42000-224]
