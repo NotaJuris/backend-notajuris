@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import br.com.notajuris.notajuris.model.usuario.Usuario;
-import br.com.notajuris.notajuris.repository.UsuarioRepository;
 import br.com.notajuris.notajuris.service.UsuarioService;
 import jakarta.transaction.Transactional;
 

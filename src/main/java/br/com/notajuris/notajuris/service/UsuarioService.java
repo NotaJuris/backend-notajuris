@@ -1,5 +1,7 @@
 package br.com.notajuris.notajuris.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,16 @@ public class UsuarioService {
             throw new BusinessException("User not found");
         }
         return usuario;
+    }
+
+    public Usuario getByMatricula(String matricula){
+
+        Optional<Usuario> usuario = repository.findByMatricula(matricula);
+        if(usuario.isEmpty()){
+            throw new BusinessException("Usuario nao existe");
+        }
+        return usuario.get();
+
     }
     
 }
