@@ -46,19 +46,19 @@ public class JwtService {
 
     }
 
-    public Integer validateToken(String token){
+    public String validateToken(String token){
         try {
 
             JWTVerifier verifier = JWT.require(alg)
             .withIssuer("api-notajuris")
             .build();
 
-            String decoded = verifier.verify(token).getSubject();
-            return Integer.parseInt(decoded);
+            String usuarioId = verifier.verify(token).getSubject();
+            return usuarioId;
             
         } catch (JWTVerificationException e) {
             //TODO Exception Handling
-            throw new RuntimeException(e.getMessage());
+            return null;
         }
     }
 }

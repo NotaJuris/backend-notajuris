@@ -535,3 +535,9 @@ INSERT INTO CARGO [42001-224]
 2024-09-19 11:25:04.191969-03:00 jdbc[17]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO CARGO VALUES[*]"; expected "ROW (, (, DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
 INSERT INTO CARGO VALUES [42001-224]
+2024-09-20 14:32:41.375476-03:00 jdbc[17]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (USUARIO: ""PERIODO"" INTEGER)"; SQL statement:
+INSERT INTO usuario VALUES (1, 'Lucas Lucena Calixto','','03341106', 'senha123', 1, 5) [22018-224]
+2024-09-20 14:32:57.146357-03:00 jdbc[17]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO usuario VALUES (1, 'Lucas Lucena Calixto',[*],'03341106', 'senha123', 1, 5)"; expected "DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+INSERT INTO usuario VALUES (1, 'Lucas Lucena Calixto',,'03341106', 'senha123', 1, 5) [42001-224]
