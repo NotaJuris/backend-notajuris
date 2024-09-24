@@ -14,6 +14,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
+import br.com.notajuris.notajuris.exceptions.BusinessException;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 
 @Service
@@ -117,4 +118,15 @@ public class TokenService {
         redisTemplate.opsForValue().set(refreshToken, usuario.getId().toString());
         return refreshToken;
     }
+
+	public Integer validateRefreshToken(String refreshToken) {
+		//procura token no redis
+        String usuarioId = redisTemplate.opsForValue().getAndDelete(refreshToken);
+        //se nao encontrar, lança exceção
+        if(usuarioId == null){
+            throw new BusinessException("refreshToken inválida");
+        }
+        //se encontrar, captura o id do usuário e remove o refreshToken do redis
+        return Integer.parseInt(usuarioId);
+	}
 }

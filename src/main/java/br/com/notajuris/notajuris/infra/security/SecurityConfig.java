@@ -26,6 +26,7 @@ public class SecurityConfig {
                 request
                     .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/v1/auth/*/refresh").permitAll()
                     .anyRequest().authenticated()
             )
             .sessionManagement(
