@@ -6,6 +6,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -124,7 +125,7 @@ public class TokenService {
         String usuarioId = redisTemplate.opsForValue().getAndDelete(refreshToken);
         //se nao encontrar, lança exceção
         if(usuarioId == null){
-            throw new BusinessException("refreshToken inválida");
+            throw new BusinessException("refreshToken inválida", HttpStatus.NOT_FOUND);
         }
         //se encontrar, captura o id do usuário e remove o refreshToken do redis
         return Integer.parseInt(usuarioId);

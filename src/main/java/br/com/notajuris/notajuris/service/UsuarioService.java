@@ -3,6 +3,7 @@ package br.com.notajuris.notajuris.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.com.notajuris.notajuris.exceptions.BusinessException;
@@ -18,7 +19,7 @@ public class UsuarioService {
     public Usuario getById(Integer id){
         Usuario usuario = repository.getReferenceById(id);
         if(usuario == null){
-            throw new BusinessException("User not found");
+            throw new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND);
         }
         return usuario;
     }
@@ -27,7 +28,7 @@ public class UsuarioService {
 
         Optional<Usuario> usuario = repository.findByMatricula(matricula);
         if(usuario.isEmpty()){
-            throw new BusinessException("Usuario nao existe");
+            throw new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND);
         }
         return usuario.get();
 
