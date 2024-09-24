@@ -1,6 +1,7 @@
 package br.com.notajuris.notajuris.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.notajuris.notajuris.infra.security.JwtService;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.model.usuario.UsuarioLoginDto;
 import br.com.notajuris.notajuris.model.usuario.UsuarioLoginResponseDto;
+import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
 
 @RestController
@@ -21,11 +22,11 @@ import br.com.notajuris.notajuris.service.UsuarioService;
 public class AuthController {
 
     @Autowired
-    JwtService jwtService;
-
+    TokenService tokenService;
+    
     @Autowired
     PasswordEncoder PasswordEncoder;
-
+    
     @Autowired
     UsuarioService usuarioService;
 
@@ -41,8 +42,9 @@ public class AuthController {
         }
 
         //se senhas coincidirem, gerar token jwt.
-        String token = jwtService.generateToken(usuario);
-        return ResponseEntity.ok(new UsuarioLoginResponseDto(token));
+        String token = tokenService.generateToken(usuario);
+        String refreshToken = tokenService.generateRefreshToken(usuario);
+        return ResponseEntity.ok(new UsuarioLoginResponseDto(token, refreshToken));
     }
 
     //cadastro

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.notajuris.notajuris.model.usuario.Usuario;
+import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtFilter extends OncePerRequestFilter{
 
     @Autowired
-    JwtService jwtService;
+    TokenService tokenService;
 
     @Autowired
     UsuarioService usuarioService;
@@ -29,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter{
         throws ServletException, IOException {
 
             String token = this.recoverToken(request);
-            String usuarioId = jwtService.validateToken(token);
+            String usuarioId = tokenService.validateToken(token);
 
             if(usuarioId != null){
                 Usuario usuario = usuarioService.getById(Integer.parseInt(usuarioId));
