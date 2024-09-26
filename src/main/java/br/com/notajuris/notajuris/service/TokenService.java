@@ -80,7 +80,7 @@ public class TokenService {
 
         } catch (JWTCreationException e) {
             //TODO Exception Handling
-            throw new RuntimeException(e.getMessage());
+            throw new BusinessException("erro ao criar a token", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
