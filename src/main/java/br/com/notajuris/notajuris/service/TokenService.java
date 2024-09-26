@@ -1,7 +1,9 @@
 package br.com.notajuris.notajuris.service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +36,7 @@ public class TokenService {
     public TokenService(
         @Value("${api.jwt.key}") String key,
         @Value("${api.jwt.token.minutes}") long tokenExpiration,
-        @Value("${api.jwt.refresh-token.minutes}") long refreshTokenExpiration
+        @Value("${api.jwt.refresh-token.hours}") long refreshTokenExpiration
         ){
         this.key = key;
         this.alg = Algorithm.HMAC512(key);
@@ -117,6 +119,7 @@ public class TokenService {
             .toString();
         //insere no redis
         redisTemplate.opsForValue().set(refreshToken, usuario.getId().toString());
+        redisTemplate.expireAt(refreshToken, Instant.now().plus(refreshTokenExpiration, ChronoUnit.HOURS));
         return refreshToken;
     }
 
