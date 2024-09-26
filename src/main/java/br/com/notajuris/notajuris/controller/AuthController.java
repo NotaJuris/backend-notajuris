@@ -1,9 +1,7 @@
 package br.com.notajuris.notajuris.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +15,7 @@ import br.com.notajuris.notajuris.model.usuario.UsuarioLoginDto;
 import br.com.notajuris.notajuris.model.usuario.UsuarioLoginResponseDto;
 import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/v1/auth")
@@ -32,6 +31,7 @@ public class AuthController {
     UsuarioService usuarioService;
 
     //login
+    @Transactional
     @PostMapping("/login")
     public ResponseEntity<UsuarioLoginResponseDto> login(@RequestBody UsuarioLoginDto usuarioDto){
 

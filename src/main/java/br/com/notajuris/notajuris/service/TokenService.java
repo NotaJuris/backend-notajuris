@@ -16,6 +16,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 
 import br.com.notajuris.notajuris.exceptions.BusinessException;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
@@ -93,7 +94,9 @@ public class TokenService {
 
             String usuarioId = verifier.verify(token).getSubject();
             return usuarioId;
-            
+
+        } catch (TokenExpiredException e) {
+            throw new BusinessException("token expirou", HttpStatus.BAD_REQUEST);
         } catch (JWTVerificationException e) {
             //TODO Exception Handling
             return null;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -19,13 +20,18 @@ public class RedisConfig {
     @Bean
     public JedisConnectionFactory jedisConnectionFactory(
         @Value("${spring.redis.host}") String host,
-        @Value("${spring.redis.port}") String port
+        @Value("${spring.redis.port}") String port,
+        @Value("${spring.data.redis.username}") String username,
+        @Value("${spring.data.redis.password}") String password
     ){
 
+        RedisPassword senhaRedis = RedisPassword.of(password);
 
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(host);
         redisStandaloneConfiguration.setPort(Integer.parseInt(port));
+        redisStandaloneConfiguration.setUsername(username);
+        redisStandaloneConfiguration.setPassword(senhaRedis);
 
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(10);
