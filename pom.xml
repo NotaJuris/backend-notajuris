@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>br.com.notajuris</groupId>
 	<artifactId>notajuris</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>notajuris</name>
-	<description>Demo project for Spring Boot</description>
+	<description>O sistema de gerenciamento de atividades que voce precisa</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -91,7 +91,9 @@
 		</dependency>
 	</dependencies>
 
+	<packaging>jar</packaging>
 	<build>
+		<finalName>notajuris-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
