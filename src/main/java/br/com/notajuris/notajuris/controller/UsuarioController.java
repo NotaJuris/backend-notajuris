@@ -9,6 +9,8 @@ import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -24,7 +26,7 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     @GetMapping("/me")
-    public UsuarioResponseDto getCurrentUsuario(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<UsuarioResponseDto> getCurrentUsuario(@RequestHeader("Authorization") String token) {
 
         //converte o token
         token = token.replace("Bearer ", "");
@@ -33,7 +35,7 @@ public class UsuarioController {
         //procura o usuario
         Usuario usuario = usuarioService.getById(Integer.parseInt(usuarioId));
         //retorna o usuario
-        return new UsuarioResponseDto(
+        UsuarioResponseDto response = new UsuarioResponseDto(
             usuario.getNome(),
             usuario.getMatricula(),
             usuario.getPeriodo(),
@@ -41,7 +43,6 @@ public class UsuarioController {
             usuario.getTelefone(),
             usuario.getCargo().getNome().toString()
         );
+        return ResponseEntity.ok(response);
     }
-    
-    
 }
