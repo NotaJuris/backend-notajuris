@@ -36,6 +36,7 @@ public class UsuarioController {
         Usuario usuario = usuarioService.getById(Integer.parseInt(usuarioId));
         //retorna o usuario
         UsuarioResponseDto response = new UsuarioResponseDto(
+            usuario.getId(),
             usuario.getNome(),
             usuario.getMatricula(),
             usuario.getPeriodo(),
