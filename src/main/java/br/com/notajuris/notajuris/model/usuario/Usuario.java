@@ -39,8 +39,14 @@ public class Usuario implements UserDetails{
     private String nome;
 
     @Column(nullable = false)
+    private String telefone;
+
+    @Column(nullable = false)
+    private String email;
+
     private Integer periodo;
 
+    @Column(nullable = false)
     private String matricula;
 
     @Column(nullable = false)

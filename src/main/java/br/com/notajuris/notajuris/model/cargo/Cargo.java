@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,8 +23,8 @@ import lombok.Setter;
 @Table(name = "cargo")
 public class Cargo{
 
-    public Cargo(String nome){
-        this.nome = nome.toUpperCase();
+    public Cargo(CargoNome nome){
+        this.nome = nome;
     }
 
     @Id
@@ -31,7 +33,8 @@ public class Cargo{
     private Integer id;
 
     @Column(name = "nome_cargo", nullable = false)
-    private String nome;
+    @Enumerated(EnumType.STRING)
+    private CargoNome nome;
 
     private Boolean ativo = true;
     
