@@ -5,19 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.model.usuario.UsuarioResponseDto;
-import br.com.notajuris.notajuris.model.usuario.Usu;
 import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
 @RequestMapping("/v1/usuarios")
-public class UsuarioContoller {
+public class UsuarioController {
 
     @Autowired
     TokenService tokenService;
@@ -29,6 +27,8 @@ public class UsuarioContoller {
     public UsuarioResponseDto getCurrentUsuario(@RequestHeader("Authorization") String token) {
 
         //converte o token
+        token = token.replace("Bearer ", "");
+        System.out.println(token);
         String usuarioId = tokenService.validateToken(token);
         //procura o usuario
         Usuario usuario = usuarioService.getById(Integer.parseInt(usuarioId));
@@ -36,10 +36,10 @@ public class UsuarioContoller {
         return new UsuarioResponseDto(
             usuario.getNome(),
             usuario.getMatricula(),
-            usuario.getPeriodo().toString(),
+            usuario.getPeriodo(),
             usuario.getEmail(),
             usuario.getTelefone(),
-            usuario.getCargo().toString()
+            usuario.getCargo().getNome().toString()
         );
     }
     

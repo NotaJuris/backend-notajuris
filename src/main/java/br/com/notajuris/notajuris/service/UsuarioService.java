@@ -17,11 +17,9 @@ public class UsuarioService {
     UsuarioRepository repository;
 
     public Usuario getById(Integer id){
-        Usuario usuario = repository.getReferenceById(id);
-        if(usuario == null){
-            throw new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND);
-        }
-        return usuario;
+        Optional<Usuario> usuario = repository.findById(id);
+
+        return usuario.orElseThrow(() -> new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND));
     }
 
     public Usuario getByMatricula(String matricula){

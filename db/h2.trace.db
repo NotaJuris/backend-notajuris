@@ -887,3 +887,6 @@ INSERT INTO CARGO VALUES (1, ALUNO, 1), (2, ORIENTADOR, 1), (3, ADMIN, 1), (4, S
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-09-27 14:52:15.562109-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]INFORMATION_SCHEMA.COLUMNS"; expected "INSERT"; SQL statement:
+INFORMATION_SCHEMA.COLUMNS [42001-224]

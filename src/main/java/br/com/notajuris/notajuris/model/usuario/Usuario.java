@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.notajuris.notajuris.model.cargo.Cargo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -55,15 +56,29 @@ public class Usuario implements UserDetails{
     @Column(nullable = false)
     private Boolean ativo;
     
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_cargo_id", referencedColumnName = "cargo_id")
     private Cargo cargo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(
-            new SimpleGrantedAuthority("ROLE_"+cargo.getNome())
-        );
+        switch(cargo.getNome()){
+            case SUPERADMIN:
+                return List.of(
+                    new SimpleGrantedAuthority("ROLE_SUPERADMIN"),
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_ALUNO")
+                );
+            case ADMIN:
+                return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_ALUNO")
+                );
+            default:
+                return List.of(
+                    new SimpleGrantedAuthority("ROLE_ALUNO")
+                );
+        }
     }
 
     @Override
