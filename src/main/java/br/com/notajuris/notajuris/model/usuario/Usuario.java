@@ -3,13 +3,13 @@ package br.com.notajuris.notajuris.model.usuario;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.notajuris.notajuris.model.cargo.Cargo;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,14 +19,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import br.com.notajuris.notajuris.infra.bean.AesEncryptionConfig;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "usuario")
 public class Usuario implements UserDetails{
@@ -36,17 +37,21 @@ public class Usuario implements UserDetails{
     @Column(name = "usuario_id")
     private Integer id;
 
+    @Convert(converter = AesEncryptionConfig.class)
     @Column(nullable = false)
     private String nome;
 
+    @Convert(converter = AesEncryptionConfig.class)
     @Column(nullable = false)
     private String telefone;
 
+    @Convert(converter = AesEncryptionConfig.class)
     @Column(nullable = false)
     private String email;
 
     private Integer periodo;
 
+    @Convert(converter = AesEncryptionConfig.class)
     @Column(nullable = false)
     private String matricula;
 

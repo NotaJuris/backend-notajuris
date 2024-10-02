@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.notajuris.notajuris.exceptions.BusinessException;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.model.usuario.UsuarioLoginDto;
 import br.com.notajuris.notajuris.model.usuario.UsuarioLoginResponseDto;
@@ -36,6 +37,9 @@ public class AuthController {
     public ResponseEntity<UsuarioLoginResponseDto> login(@RequestBody UsuarioLoginDto usuarioDto){
 
         Usuario usuario = usuarioService.getByMatricula(usuarioDto.matricula());
+        if(usuario == null){
+            throw new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND);
+        }
 
         //se senhas nao coincidirem, retorna nulo e 403.
         if(!(PasswordEncoder.matches(usuarioDto.senha(), usuario.getSenha()))){

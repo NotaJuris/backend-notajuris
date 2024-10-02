@@ -26,7 +26,7 @@ public class UsuarioService {
 
         Optional<Usuario> usuario = repository.findByMatricula(matricula);
         if(usuario.isEmpty()){
-            throw new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND);
+            return null;
         }
         return usuario.get();
 
