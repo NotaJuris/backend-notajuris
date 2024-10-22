@@ -1,8 +1,5 @@
 FROM maven:3.9.9-amazoncorretto-17 AS build
 WORKDIR /notajuris
-COPY pom.xml .
-RUN mvn dependency:resolve
-ADD src ./src
 ENV MYSQLHOST=autorack.proxy.rlwy.net
 ENV MYSQLPORT=38089
 ENV MYSQLDATABASE=railway
@@ -15,6 +12,9 @@ ENV REDISUSER=default
 ENV REDISPASSWORD=bZlNMwffrZDHrIQwqdDAwWsBjUSJIFup
 ENV SPRINGPROFILE=prod
 ENV CRYPTOKEY=Op7MXfkvpfC3XvHO
+COPY pom.xml .
+RUN mvn dependency:resolve
+ADD src ./src
 RUN mvn clean install
 
 FROM amazoncorretto:17-alpine3.17
