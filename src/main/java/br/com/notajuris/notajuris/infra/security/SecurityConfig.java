@@ -33,6 +33,7 @@ public class SecurityConfig {
                     .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/v1/auth/*/refresh").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/v1/usuarios/").hasAnyRole("ADMIN", "SUPERADMIN")
                     .anyRequest().authenticated()
             )
             .sessionManagement(

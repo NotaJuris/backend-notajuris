@@ -1,0 +1,2 @@
+ALTER TABLE usuario
+ADD COLUMN turno VARCHAR(255);

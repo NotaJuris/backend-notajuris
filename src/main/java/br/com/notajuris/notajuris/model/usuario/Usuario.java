@@ -3,6 +3,7 @@ package br.com.notajuris.notajuris.model.usuario;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,8 @@ import br.com.notajuris.notajuris.model.cargo.Cargo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -59,7 +62,10 @@ public class Usuario implements UserDetails{
     private String senha;
 
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = true;
+
+    @Enumerated(EnumType.STRING)
+    private TurnoAluno turno;
     
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_cargo_id", referencedColumnName = "cargo_id")
