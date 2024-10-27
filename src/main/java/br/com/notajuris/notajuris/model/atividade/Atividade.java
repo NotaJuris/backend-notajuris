@@ -61,4 +61,17 @@ public class Atividade {
 
     @ColumnDefault(value = "1")
     private Boolean ativo;
+
+    public static Atividade toEntity(AtividadeDto dto, Usuario usuario){
+        return Atividade.builder()
+                .tipo(dto.tipo())
+                .descricao(dto.descricao())
+                .cargaHoraria(dto.carga_horatia())
+                .dataAtividade(dto.data_atividade())
+                .horaAtividade(dto.hora_atividade())
+                .usuario(usuario)
+                .status(StatusAtividade.PENDENTE)
+                .ativo(true)
+                .build();
+    }
 }
