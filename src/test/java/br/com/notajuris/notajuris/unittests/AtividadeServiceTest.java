@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,11 +34,11 @@ public class AtividadeServiceTest {
     @InjectMocks
     AtividadeService atividadeService;
 
-    Usuario usuarioTeste;
-    Atividade atividadeTeste;
+    static Usuario usuarioTeste;
+    static Atividade atividadeTeste;
 
     @BeforeAll
-    public void initTest(){
+    public static void initTest(){
         
         usuarioTeste = Usuario.builder()
             .id(103)
@@ -76,6 +77,9 @@ public class AtividadeServiceTest {
             LocalTime.now(),
             6
         );
+
+        Mockito.when(atividadeRepository.save(Mockito.any(Atividade.class))).thenReturn(atividadeTeste);
+
         //entao chama o serviço e retorna uma atividade do tipo PLANTAO e PENDENTE
         Atividade atividade = atividadeService.save(dto, usuarioTeste);
 
