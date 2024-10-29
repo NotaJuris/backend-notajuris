@@ -30,10 +30,10 @@ public class JwtFilter extends OncePerRequestFilter{
         throws ServletException, IOException {
 
             String token = this.recoverToken(request);
-            String usuarioId = tokenService.validateToken(token);
+            Integer usuarioId = tokenService.validateToken(token);
 
             if(usuarioId != null){
-                Usuario usuario = usuarioService.getById(Integer.parseInt(usuarioId));
+                Usuario usuario = usuarioService.getById(usuarioId);
                 SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities())
                 );

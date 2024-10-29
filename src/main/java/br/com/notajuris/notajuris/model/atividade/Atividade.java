@@ -14,7 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -66,7 +65,7 @@ public class Atividade {
         return Atividade.builder()
                 .tipo(dto.tipo())
                 .descricao(dto.descricao())
-                .cargaHoraria(dto.carga_horatia())
+                .cargaHoraria(dto.carga_horaria())
                 .dataAtividade(dto.data_atividade())
                 .horaAtividade(dto.hora_atividade())
                 .usuario(usuario)

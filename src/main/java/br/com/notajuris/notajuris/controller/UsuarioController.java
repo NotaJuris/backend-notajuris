@@ -33,10 +33,9 @@ public class UsuarioController {
 
         //converte o token
         token = token.replace("Bearer ", "");
-        System.out.println(token);
-        String usuarioId = tokenService.validateToken(token);
+        Integer usuarioId = tokenService.validateToken(token);
         //procura o usuario
-        Usuario usuario = usuarioService.getById(Integer.parseInt(usuarioId));
+        Usuario usuario = usuarioService.getById(usuarioId);
         //retorna o usuario
         UsuarioResponseDto response = new UsuarioResponseDto(
             usuario.getId(),

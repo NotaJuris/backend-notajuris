@@ -85,7 +85,7 @@ public class TokenService {
 
     }
 
-    public String validateToken(String token){
+    public Integer validateToken(String token){
         try {
 
             JWTVerifier verifier = JWT.require(alg)
@@ -93,7 +93,7 @@ public class TokenService {
             .build();
 
             String usuarioId = verifier.verify(token).getSubject();
-            return usuarioId;
+            return Integer.parseInt(usuarioId);
 
         } catch (TokenExpiredException e) {
             throw new BusinessException("token expirou", HttpStatus.BAD_REQUEST);
