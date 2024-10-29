@@ -1,5 +1,7 @@
 package br.com.notajuris.notajuris.service;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +27,10 @@ public class AtividadeService {
 
         //retorna a atividade salva
         return save;
+    }
+
+    public Set<Atividade> getAtividadesById(Integer id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAtividadesById'");
     }
 }
