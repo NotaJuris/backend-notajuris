@@ -62,7 +62,8 @@ public class Usuario implements UserDetails{
     private String senha;
 
     @Column(nullable = false)
-    private Boolean ativo = true;
+    @ColumnDefault(value = "1")
+    private Boolean ativo;
 
     @Enumerated(EnumType.STRING)
     private TurnoAluno turno;

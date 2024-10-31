@@ -12,7 +12,8 @@ public record AtividadeDto(
     LocalDate data_atividade,
     @JsonFormat(pattern="HH:mm")
     LocalTime hora_atividade,
-    Integer carga_horaria
+    Integer carga_horaria,
+    DetalhesAtividade detalhes
 ) {
     
 }
