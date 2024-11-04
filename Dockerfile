@@ -1,17 +1,17 @@
 FROM maven:3.9.9-amazoncorretto-17 AS build
 WORKDIR /notajuris
-ENV MYSQLHOST=autorack.proxy.rlwy.net
-ENV MYSQLPORT=38089
-ENV MYSQLDATABASE=railway
-ENV MYSQLUSER=root
-ENV MYSQLPASSWORD=QsKYQhjOGCLgdNjaTPMeRVjaWrmTweZb
-ENV JWTKEY=+mqg6nduxaToY/pTJDpV2OucHfRfXabwzryKyIQ14RV2tYRf+nY1kfLjRa3z3GPvx752ejPght6QhhMNzHBcQ==
-ENV REDISHOST=junction.proxy.rlwy.net
-ENV REDISPORT=31810
-ENV REDISUSER=default
-ENV REDISPASSWORD=bZlNMwffrZDHrIQwqdDAwWsBjUSJIFup
-ENV SPRINGPROFILE=prod
-ENV CRYPTOKEY=Op7MXfkvpfC3XvHO
+ARG MYSQLHOST
+ARG MYSQLPORT
+ARG MYSQLDATABASE
+ARG MYSQLUSER
+ARG MYSQLPASSWORD
+ARG JWTKEY
+ARG REDISHOST
+ARG REDISPORT
+ARG REDISUSER
+ARG REDISPASSWORD
+ARG SPRINGPROFILE
+ARG CRYPTOKEY
 COPY pom.xml .
 RUN mvn dependency:resolve
 ADD src ./src
@@ -19,7 +19,7 @@ RUN mvn clean install
 
 FROM amazoncorretto:17-alpine3.17
 WORKDIR /usr/src/app
-ENV PORT=5005
+ARG PORT
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 COPY --from=build /notajuris/target/*.jar /usr/src/app/notajuris-api.jar
 

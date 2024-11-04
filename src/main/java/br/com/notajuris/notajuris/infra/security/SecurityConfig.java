@@ -34,6 +34,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/v1/auth/*/refresh").permitAll()
                     .requestMatchers(HttpMethod.POST, "/v1/usuarios/").hasAnyRole("ADMIN", "SUPERADMIN")
+                    .requestMatchers(HttpMethod.POST, "/v1/atividades/").hasAnyRole("ALUNO")
                     .anyRequest().authenticated()
             )
             .sessionManagement(

@@ -10,7 +10,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<BusinessExceptionDto> businessExceptionHandler(BusinessException e){
         return ResponseEntity.status(e.getStatusCode()).body(new BusinessExceptionDto(e.getMessage()));
-
     } 
     
 }

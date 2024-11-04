@@ -10,7 +10,8 @@ public record AtividadeResponseDto(
     LocalDate data_atividade,
     LocalTime hora_atividade,
     String aluno,
-    StatusAtividade status
+    StatusAtividade status,
+    DetalhesAtividade detalhes
 ) {
     
 }

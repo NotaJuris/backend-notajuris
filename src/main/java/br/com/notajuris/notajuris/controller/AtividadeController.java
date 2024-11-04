@@ -54,7 +54,8 @@ public class AtividadeController {
                 save.getDataAtividade(),
                 save.getHoraAtividade(), 
                 usuario.getNome(), 
-                save.getStatus()
+                save.getStatus(),
+                save.getDetalhes()
             );
 
             return ResponseEntity.ok(responseDto);
