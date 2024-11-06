@@ -40,10 +40,16 @@ public class SecurityConfig {
             .sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(exceptionHandlerFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtFilter, ExceptionHandlerFilter.class);
 
         return http.build();
     } 
+
+    @Bean
+    public ExceptionHandlerFilter exceptionHandlerFilter(){
+        return new ExceptionHandlerFilter();
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){

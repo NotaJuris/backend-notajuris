@@ -1,15 +1,25 @@
 package br.com.notajuris.notajuris.exceptions;
 
-import org.springframework.http.ResponseEntity;
+import javax.naming.AuthenticationException;
+
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<BusinessExceptionDto> businessExceptionHandler(BusinessException e){
-        return ResponseEntity.status(e.getStatusCode()).body(new BusinessExceptionDto(e.getMessage()));
-    } 
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handler(Exception ex){
+
+        ProblemDetail errorDetail = null;
+
+        if(ex instanceof BusinessException){
+            BusinessException businessException = (BusinessException) ex;
+            errorDetail = ProblemDetail.forStatusAndDetail(businessException.getStatusCode(), businessException.getMessage());
+        }
+
+        return errorDetail;
+    }
     
 }
