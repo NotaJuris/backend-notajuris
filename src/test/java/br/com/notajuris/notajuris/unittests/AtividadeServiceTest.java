@@ -2,6 +2,8 @@ package br.com.notajuris.notajuris.unittests;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,9 +30,13 @@ import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.repository.AtividadeRepository;
 import br.com.notajuris.notajuris.service.AtendimentoService;
 import br.com.notajuris.notajuris.service.AtividadeService;
+import br.com.notajuris.notajuris.service.UsuarioService;
 
 @SpringBootTest
 public class AtividadeServiceTest {
+
+    @MockBean
+    UsuarioService usuarioService;
 
     @MockBean
     AtividadeRepository atividadeRepository;
@@ -166,20 +172,47 @@ public class AtividadeServiceTest {
     }
 
     @Test
-    @DisplayName("deve retornar uma lista de atividades referente a um usuário teste")
+    @DisplayName("deve retornar uma lista de atividades ao id 103 do usuario")
     public void getAtividadesCurrentUsuario(){
 
-        /*Set<Atividade> atividadesSet = Set.of(
-            atividadeTeste,
-            atividadeTeste2
+        List<Atividade> atividadesSet = List.of(
+            Atividade.builder()
+            .id(1)
+            .tipo(TipoAtividade.PLANTAO)
+            .cargaHoraria(6)
+            .dataAtividade(LocalDate.now())
+            .descricao("plantao")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.PENDENTE)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .build(),
+            Atividade.builder()
+            .id(2)
+            .tipo(TipoAtividade.AUDIENCIA)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("audiencia")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.PENDENTE)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .build()
         );
 
+        Mockito.when(usuarioService.getById(103)).thenReturn(usuarioTeste);
+        Mockito.when(atividadeRepository.findByUsuario(usuarioTeste)).thenReturn(Optional.of(atividadesSet));
         //quando receber o id de um usuário
-        Set<Atividade> atividades = atividadeService.getAtividadesById(usuarioTeste.getId());
+        List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioTeste.getId());
 
         //entao retorna lista de atividades referentes a esse usuario
         atividades.stream().forEach(
-            atividade -> Assertions.assertEquals(atividade.getUsuario(), usuarioTeste)
-        );*/
+            atividade -> {
+                System.out.println(atividade.getTipo());
+                Assertions.assertEquals(atividade.getUsuario(), usuarioTeste);
+            }
+        );
     }
 }

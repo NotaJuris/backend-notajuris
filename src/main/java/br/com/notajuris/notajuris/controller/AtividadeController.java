@@ -1,5 +1,8 @@
 package br.com.notajuris.notajuris.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,8 @@ import br.com.notajuris.notajuris.service.AtividadeService;
 import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -62,6 +67,29 @@ public class AtividadeController {
             throw new BusinessException("erro ao registrar atividade", HttpStatus.NOT_FOUND);
         }
         
+    }
+
+    @GetMapping("/{usuarioId}/usuario")
+    public ResponseEntity<List<AtividadeResponseDto>> getByUsuarioId(@PathVariable Integer usuarioId){
+
+        List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioId);
+
+        if(atividades.isEmpty()){
+            return ResponseEntity.ok(new ArrayList<AtividadeResponseDto>());
+        } else {
+            List<AtividadeResponseDto> dtos = atividades.stream().map(
+                atividade -> new AtividadeResponseDto(atividade.getId(),
+                atividade.getTipo(),
+                atividade.getDescricao(),
+                atividade.getDataAtividade(),
+                atividade.getHoraAtividade(),
+                atividade.getUsuario().getNome(),
+                atividade.getStatus(),
+                atividade.getDetalhes())
+            ).toList();
+
+            return ResponseEntity.ok(dtos);
+        }
     }
     
 }

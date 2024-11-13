@@ -17,7 +17,6 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         try{
-            System.out.println("capturou a exceção");
             filterChain.doFilter(request, response);
         } catch(BusinessException e){
             request.setAttribute("javax.servlet.error.status_code", e.getStatusCode().value());

@@ -35,10 +35,8 @@ public class UsuarioService {
     public Usuario getByMatricula(String matricula){
 
         Optional<Usuario> usuario = repository.findByMatricula(matricula);
-        if(usuario.isEmpty()){
-            return null;
-        }
-        return usuario.get();
+        
+        return usuario.orElse(null);
 
     }
 

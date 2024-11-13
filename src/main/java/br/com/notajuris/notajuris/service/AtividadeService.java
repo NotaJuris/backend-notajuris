@@ -1,9 +1,13 @@
 package br.com.notajuris.notajuris.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import br.com.notajuris.notajuris.exceptions.BusinessException;
@@ -19,6 +23,9 @@ import jakarta.transaction.Transactional;
 @Transactional
 @Service
 public class AtividadeService {
+
+    @Autowired
+    UsuarioService usuarioService;
     
     @Autowired
     AtividadeRepository repository;
@@ -67,8 +74,17 @@ public class AtividadeService {
         return save;
     }
 
-    public Set<Atividade> getAtividadesById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAtividadesById'");
+    public List<Atividade> getAtividadesByUsuarioId(Integer usuarioId) {
+        //verifica se o usuario existe
+        Usuario usuario = usuarioService.getById(usuarioId);
+        if(usuario != null){
+            //se existir, procura todas as atividades e retorna um set de atividades
+            Optional<List<Atividade>> atividades = repository.findByUsuario(usuario);
+            
+            return atividades.orElse(new ArrayList<Atividade>());
+
+        } else {
+            throw new BusinessException("usuario nao existe", HttpStatus.NOT_FOUND);
+        }
     }
 }
