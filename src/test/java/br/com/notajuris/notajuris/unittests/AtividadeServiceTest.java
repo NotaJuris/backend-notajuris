@@ -14,7 +14,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 
+import br.com.notajuris.notajuris.NotajurisApplication;
 import br.com.notajuris.notajuris.model.Endereco;
 import br.com.notajuris.notajuris.model.EstadoCivil;
 import br.com.notajuris.notajuris.model.atendimento.Atendimento;
@@ -33,6 +35,7 @@ import br.com.notajuris.notajuris.service.AtividadeService;
 import br.com.notajuris.notajuris.service.UsuarioService;
 
 @SpringBootTest
+@ContextConfiguration(classes = NotajurisApplication.class)
 public class AtividadeServiceTest {
 
     @MockBean

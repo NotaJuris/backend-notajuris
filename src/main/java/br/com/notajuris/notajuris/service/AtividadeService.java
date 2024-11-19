@@ -3,11 +3,9 @@ package br.com.notajuris.notajuris.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import br.com.notajuris.notajuris.exceptions.BusinessException;
