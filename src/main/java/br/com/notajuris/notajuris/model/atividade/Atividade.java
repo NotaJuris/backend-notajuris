@@ -62,6 +62,8 @@ public class Atividade {
     @Transient
     DetalhesAtividade detalhes;
 
+    private String semestre;
+
     @ColumnDefault(value = "1")
     private Boolean ativo;
 

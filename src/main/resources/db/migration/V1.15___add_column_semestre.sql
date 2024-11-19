@@ -1,2 +1,2 @@
-ALTER TABLE usuario
+ALTER TABLE atividade
 ADD COLUMN semestre VARCHAR(255);

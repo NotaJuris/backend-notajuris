@@ -85,4 +85,19 @@ public class AtividadeService {
             throw new BusinessException("usuario nao existe", HttpStatus.NOT_FOUND);
         }
     }
+
+    public List<Atividade> getAtividadesByUsuarioId(Integer usuarioId, String semestre) {
+        //verifica se o usuario existe
+        Usuario usuario = usuarioService.getById(usuarioId);
+        if(usuario != null){
+
+            //se existir, procura todas as atividades e retorna um set de atividades
+            Optional<List<Atividade>> atividades = repository.findByUsuarioAndSemestre(usuario, semestre);
+            
+            return atividades.orElse(new ArrayList<Atividade>());
+
+        } else {
+            throw new BusinessException("usuario nao existe", HttpStatus.NOT_FOUND);
+        }
+    }
 }

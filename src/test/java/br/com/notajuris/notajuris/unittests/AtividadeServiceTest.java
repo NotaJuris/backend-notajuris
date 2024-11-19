@@ -190,6 +190,7 @@ public class AtividadeServiceTest {
             .usuario(usuarioTeste)
             .ativo(true)
             .detalhes(null)
+            .semestre("2025.1")
             .build(),
             Atividade.builder()
             .id(2)
@@ -202,6 +203,7 @@ public class AtividadeServiceTest {
             .usuario(usuarioTeste)
             .ativo(true)
             .detalhes(null)
+            .semestre("2025.1")
             .build()
         );
 
@@ -218,4 +220,78 @@ public class AtividadeServiceTest {
             }
         );
     }
+
+    @Test
+    @DisplayName("deve retornar uma lsita de atividades do usuario 103 e de status PENDENTE")
+    public void getAtividadesByIdAndSemester(){
+        List<Atividade> atividadesTeste = List.of(
+            Atividade.builder()
+            .id(2)
+            .tipo(TipoAtividade.PLANTAO)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("audiencia")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.PENDENTE)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.1")
+            .build(),
+            Atividade.builder()
+            .id(2)
+            .tipo(TipoAtividade.AUDIENCIA)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("audiencia")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.PENDENTE)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.1")
+            .build(),
+            Atividade.builder()
+            .id(2)
+            .tipo(TipoAtividade.MEDIACAO)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("audiencia")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.PENDENTE)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.1")
+            .build()
+        );
+
+        //quando receber o id do usuario e o código do semestre
+        String semestre = "2025.1";
+        Integer usuarioId = usuarioTeste.getId();
+
+        //Mocks
+        Mockito.when(usuarioService.getById(usuarioId)).thenReturn(usuarioTeste);
+
+        Mockito.when(atividadeRepository.findByUsuarioAndSemestre(usuarioTeste, semestre)).thenReturn(Optional.of(atividadesTeste));
+
+        //pesquisar pelo id e pelo semestre
+        List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, semestre);
+
+        //retornar uma lista de atividades que o semestre e o código passado coincidam
+        atividades.stream()
+            .forEach( atividade -> {
+                Assertions.assertEquals(usuarioTeste, atividade.getUsuario());
+                Assertions.assertEquals(semestre, atividade.getSemestre());;
+            });
+    }
+
+    @test
+    @DisplayName("deve retornar uma lista de atividades do usuário 103 e de status ACEITO")
+    public void getAtividadesByIdAndStatus(){}
+
+    @Test
+    @DisplayName("deve retornar uma lista de atividade do usuário 103, de status aceito e do semestre 2025.1")
+    public void getAtividadesByIsAndStatusAndSemestre(){}
+
 }

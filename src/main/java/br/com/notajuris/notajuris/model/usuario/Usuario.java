@@ -72,8 +72,6 @@ public class Usuario implements UserDetails{
     @JoinColumn(name = "fk_cargo_id", referencedColumnName = "cargo_id")
     private Cargo cargo;
 
-    private String semestre;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         switch(cargo.getNome()){

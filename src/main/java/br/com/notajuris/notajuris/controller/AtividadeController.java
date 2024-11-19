@@ -13,10 +13,12 @@ import br.com.notajuris.notajuris.exceptions.BusinessException;
 import br.com.notajuris.notajuris.model.atividade.Atividade;
 import br.com.notajuris.notajuris.model.atividade.AtividadeDto;
 import br.com.notajuris.notajuris.model.atividade.AtividadeResponseDto;
+import br.com.notajuris.notajuris.model.atividade.StatusAtividade;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.service.AtividadeService;
 import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
+import jakarta.websocket.server.PathParam;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,9 +72,25 @@ public class AtividadeController {
     }
 
     @GetMapping("/{usuarioId}/usuario")
-    public ResponseEntity<List<AtividadeResponseDto>> getByUsuarioId(@PathVariable Integer usuarioId){
+    public ResponseEntity<List<AtividadeResponseDto>> getByUsuarioId(
+        @PathVariable Integer usuarioId,
+        @PathParam("semestre") String semestre,
+        @PathParam("status") StatusAtividade status){
 
-        List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioId);
+        List<Atividade> atividades = null;
+        
+        if(status != null && !semestre.isBlank()){
+            //pesquisa por status e semestre
+        } else if(status == null && !semestre.isBlank()){
+            //pesquisa por semestre
+            atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, semestre);
+        } else if(status != null && semestre.isBlank()){
+            //pesquisa por status
+        } else {
+            //pesquisa apenas por id
+            atividades = atividadeService.getAtividadesByUsuarioId(usuarioId);
+        }
+        
 
         if(atividades.isEmpty()){
             return ResponseEntity.ok(new ArrayList<AtividadeResponseDto>());

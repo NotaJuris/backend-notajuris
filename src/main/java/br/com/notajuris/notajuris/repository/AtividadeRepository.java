@@ -11,4 +11,6 @@ import br.com.notajuris.notajuris.model.usuario.Usuario;
 public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
     
     Optional<List<Atividade>> findByUsuario(Usuario usuario);
+
+    Optional<List<Atividade>> findByUsuarioAndSemestre(Usuario usuario, String semestre);
 }
