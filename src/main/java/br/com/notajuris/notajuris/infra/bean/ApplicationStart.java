@@ -35,7 +35,7 @@ public class ApplicationStart implements ApplicationRunner {
                                 .nome("Lucas Lucena Calixto")
                                 .matricula("03341106")
                                 .email("lucaslucenacalixto1@gmail.com")
-                                .senha("$2a$12$Aum9zl2y44Nt6qmpU4JIO.csQpxsarVvLKZsLU/2gDNJ1TtrjVDWK")
+                                .senha("$2a$12$sz7WvAvU3R6ClM7jeRzBCOud5XSaP/dNS62h99b4lyPojcoOYFufK")
                                 .periodo(null)
                                 .telefone("83981698068")
                                 .cargo(cargo)

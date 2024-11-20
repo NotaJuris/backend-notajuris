@@ -77,6 +77,7 @@ public class Atividade {
                 .usuario(usuario)
                 .status(StatusAtividade.PENDENTE)
                 .detalhes(dto.detalhes())
+                .semestre(dto.semestre())
                 .ativo(true)
                 .build();
     }

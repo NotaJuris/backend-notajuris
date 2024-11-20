@@ -118,6 +118,7 @@ public class AtividadeServiceTest {
             LocalDate.now(),
             LocalTime.now(),
             6,
+            "2025.1",
             null
         );
 
@@ -141,6 +142,7 @@ public class AtividadeServiceTest {
             LocalDate.now(),
             LocalTime.now(),
             6,
+            "2025.1",
             new DetalhesAtendimento("Maria das Dores Silva Machado",
             EstadoCivil.SEPARADO,
             "costureira",
