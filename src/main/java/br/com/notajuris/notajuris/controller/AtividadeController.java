@@ -61,6 +61,7 @@ public class AtividadeController {
                 save.getHoraAtividade(), 
                 usuario.getNome(), 
                 save.getStatus(),
+                save.getSemestre(),
                 save.getDetalhes()
             );
 
@@ -78,32 +79,44 @@ public class AtividadeController {
         @PathParam("status") StatusAtividade status){
 
         List<Atividade> atividades = null;
+        System.out.println("id: "+usuarioId);
+        System.out.println("semestre: " +semestre);
+        System.out.println("status: " +status);
         
-        if(status != null && !semestre.isBlank()){
-            //pesquisa por status e semestre
-        } else if(status == null && !semestre.isBlank()){
-            //pesquisa por semestre
-            atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, semestre);
-        } else if(status != null && semestre.isBlank()){
+        if(status != null && semestre != null){
+            //pesquisa por status e por semestre
+            System.out.println("semestre e status");
+            atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, status, semestre);
+        } else if(status != null && semestre == null){
             //pesquisa por status
+            System.out.println("status");
+            atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, status);
+        } else if(status == null && semestre != null){
+            //pesquisa por semestre
+            System.out.println("semestre");
+            atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, semestre);
         } else {
-            //pesquisa apenas por id
+            //pesquisa por id
+            System.out.println("id");
             atividades = atividadeService.getAtividadesByUsuarioId(usuarioId);
         }
         
-
+        System.out.println("tamanho lista: "+atividades.size());
         if(atividades.isEmpty()){
             return ResponseEntity.ok(new ArrayList<AtividadeResponseDto>());
         } else {
             List<AtividadeResponseDto> dtos = atividades.stream().map(
-                atividade -> new AtividadeResponseDto(atividade.getId(),
+                atividade -> new AtividadeResponseDto(
+                atividade.getId(),
                 atividade.getTipo(),
                 atividade.getDescricao(),
                 atividade.getDataAtividade(),
                 atividade.getHoraAtividade(),
                 atividade.getUsuario().getNome(),
                 atividade.getStatus(),
-                atividade.getDetalhes())
+                atividade.getSemestre(),
+                atividade.getDetalhes()
+                )
             ).toList();
 
             return ResponseEntity.ok(dtos);

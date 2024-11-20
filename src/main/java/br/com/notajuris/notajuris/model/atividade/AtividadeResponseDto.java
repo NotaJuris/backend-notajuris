@@ -11,6 +11,7 @@ public record AtividadeResponseDto(
     LocalTime hora_atividade,
     String aluno,
     StatusAtividade status,
+    String semestre,
     DetalhesAtividade detalhes
 ) {
     
