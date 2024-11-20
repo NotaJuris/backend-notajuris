@@ -140,4 +140,11 @@ public class AtividadeService {
         }
     }
 
+    public List<Atividade> getAllAtividades(){
+        
+        List<Atividade> atividades = repository.findAll();
+
+        return atividades;
+
+    }
 }

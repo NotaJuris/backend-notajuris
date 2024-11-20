@@ -2,6 +2,7 @@ package br.com.notajuris.notajuris.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,6 +71,29 @@ public class AtividadeController {
             throw new BusinessException("erro ao registrar atividade", HttpStatus.NOT_FOUND);
         }
         
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<AtividadeResponseDto>> getAllAtividades(){
+        
+        List<Atividade> atividades = atividadeService.getAllAtividades();
+
+        List<AtividadeResponseDto> atividadeDtos = atividades.stream().map(
+            atividade -> new AtividadeResponseDto(
+                atividade.getId(),
+                atividade.getTipo(),
+                atividade.getDescricao(),
+                atividade.getDataAtividade(),
+                atividade.getHoraAtividade(), 
+                atividade.getUsuario().getNome(), 
+                atividade.getStatus(),
+                atividade.getSemestre(),
+                atividade.getDetalhes()
+            )
+        ).toList();
+
+        return ResponseEntity.ok(atividadeDtos);
+
     }
 
     @GetMapping("/{usuarioId}/usuario")
