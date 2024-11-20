@@ -36,6 +36,14 @@ public class AtividadeService {
     //AtendimentoService atendimentoService;
 
     public Atividade save(AtividadeDto dto, Usuario usuario){
+
+        if(dto.semestre() == null){
+            throw new BusinessException(
+                "informe o semestre em que a atividade foi feita",
+                HttpStatus.BAD_REQUEST
+            );
+        }
+
         //pega o dto e transforma em entidade
         Atividade entity = Atividade.toEntity(dto, usuario);
         //salva a atividade no banco

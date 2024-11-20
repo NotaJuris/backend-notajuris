@@ -13,6 +13,7 @@ public record AtividadeDto(
     @JsonFormat(pattern="HH:mm")
     LocalTime hora_atividade,
     Integer carga_horaria,
+    String semestre,
     DetalhesAtividade detalhes
 ) {
     
