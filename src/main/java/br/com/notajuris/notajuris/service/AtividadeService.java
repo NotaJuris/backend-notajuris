@@ -13,6 +13,7 @@ import br.com.notajuris.notajuris.model.atendimento.Atendimento;
 import br.com.notajuris.notajuris.model.atividade.Atividade;
 import br.com.notajuris.notajuris.model.atividade.AtividadeDto;
 import br.com.notajuris.notajuris.model.atividade.DetalhesAtendimento;
+import br.com.notajuris.notajuris.model.atividade.StatusAtividade;
 import br.com.notajuris.notajuris.model.atividade.TipoAtividade;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.repository.AtividadeRepository;
@@ -100,4 +101,35 @@ public class AtividadeService {
             throw new BusinessException("usuario nao existe", HttpStatus.NOT_FOUND);
         }
     }
+
+    public List<Atividade> getAtividadesByUsuarioId(Integer usuarioId, StatusAtividade status) {
+        //verifica se o usuario existe
+        Usuario usuario = usuarioService.getById(usuarioId);
+        if(usuario != null){
+
+            //se existir, procura todas as atividades e retorna um set de atividades
+            Optional<List<Atividade>> atividades = repository.findByUsuarioAndStatus(usuario, status);
+            
+            return atividades.orElse(new ArrayList<Atividade>());
+
+        } else {
+            throw new BusinessException("usuario nao existe", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public List<Atividade> getAtividadesByUsuarioId(Integer usuarioId, StatusAtividade status, String semestre) {
+        //verifica se o usuario existe
+        Usuario usuario = usuarioService.getById(usuarioId);
+        if(usuario != null){
+
+            //se existir, procura todas as atividades e retorna um set de atividades
+            Optional<List<Atividade>> atividades = repository.findByUsuarioAndStatusAndSemestre(usuario, status, semestre);
+            
+            return atividades.orElse(new ArrayList<Atividade>());
+
+        } else {
+            throw new BusinessException("usuario nao existe", HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

@@ -286,12 +286,128 @@ public class AtividadeServiceTest {
             });
     }
 
-    @test
+    @Test
     @DisplayName("deve retornar uma lista de atividades do usuário 103 e de status ACEITO")
-    public void getAtividadesByIdAndStatus(){}
+    public void getAtividadesByIdAndStatus(){
+
+        List<Atividade> atividadeList = List.of(
+            Atividade.builder()
+            .id(1)
+            .tipo(TipoAtividade.MEDIACAO)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("mediacao")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.ACEITO)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.1")
+            .build(),
+            Atividade.builder()
+            .id(3)
+            .tipo(TipoAtividade.PLANTAO)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("plantao")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.ACEITO)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.1")
+            .build()
+        );
+
+        //Quando receber id do usuário e status
+        Integer usuarioId = usuarioTeste.getId();
+        StatusAtividade status = StatusAtividade.ACEITO;
+
+        //Mocks
+        Mockito.when(usuarioService.getById(usuarioId)).thenReturn(usuarioTeste);
+
+        Mockito.when(atividadeRepository.findByUsuarioAndStatus(usuarioTeste, status)).thenReturn(Optional.of(atividadeList));
+
+
+        //pesquisar por id do usuário e por status
+        List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, status);
+
+        //retornar uma lista de atividades em que o id seja igual o id passado e o status seja ACEITO coincidam.
+        atividades.stream()
+            .forEach(atividade -> {
+                Assertions.assertEquals(atividade.getUsuario(), usuarioTeste);
+                Assertions.assertEquals(atividade.getStatus(), StatusAtividade.ACEITO);
+            });
+ 
+    }
 
     @Test
     @DisplayName("deve retornar uma lista de atividade do usuário 103, de status aceito e do semestre 2025.1")
-    public void getAtividadesByIsAndStatusAndSemestre(){}
+    public void getAtividadesByIsAndStatusAndSemestre(){
+
+        List<Atividade> atividadeList = List.of(
+            Atividade.builder()
+            .id(1)
+            .tipo(TipoAtividade.PLANTAO)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("plantao")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.ACEITO)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.2")
+            .build(),
+            Atividade.builder()
+            .id(2)
+            .tipo(TipoAtividade.MEDIACAO)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("mediacao")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.ACEITO)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.2")
+            .build(),
+            Atividade.builder()
+            .id(3)
+            .tipo(TipoAtividade.AUDIENCIA)
+            .cargaHoraria(3)
+            .dataAtividade(LocalDate.now())
+            .descricao("audiencia")
+            .horaAtividade(LocalTime.now())
+            .status(StatusAtividade.ACEITO)
+            .usuario(usuarioTeste)
+            .ativo(true)
+            .detalhes(null)
+            .semestre("2025.2")
+            .build()
+        );
+
+        //ao receber o status e o semestre
+        Integer usuarioId = usuarioTeste.getId();
+        StatusAtividade status = StatusAtividade.ACEITO;
+        String semestre = "2025.2";
+
+        //Mocks
+        Mockito.when(usuarioService.getById(usuarioId)).thenReturn(usuarioTeste);
+
+        Mockito.when(atividadeRepository.findByUsuarioAndStatusAndSemestre(usuarioTeste, status, semestre)).thenReturn(Optional.of(atividadeList));
+
+        //pesquisar por id, status e semestre;
+        List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, status, semestre);
+
+        //retorna lista de atividades em que cada atividade possui o usuario id correspondente, status aceito e semestre 2025.2
+        atividades.stream()
+        .forEach(atividade -> {
+            Assertions.assertEquals(atividade.getUsuario(), usuarioTeste);
+            Assertions.assertEquals(atividade.getStatus(), status);
+            Assertions.assertEquals(atividade.getSemestre(), semestre);
+        });
+
+    }
 
 }
