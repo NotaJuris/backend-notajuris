@@ -154,7 +154,7 @@ public class AtividadeService {
         Optional<Atividade> atividadeOpt = repository.findById(atividadeId);
         //se nao existir, lança erro
         if(atividadeOpt.isEmpty()){
-            throw new BusinessException("Atividade não existe", HttpStatus.BAD_REQUEST);
+            throw new BusinessException("Atividade não existe", HttpStatus.NOT_FOUND);
         }
         //se existir, muda o status
         Atividade atividade = atividadeOpt.get();
