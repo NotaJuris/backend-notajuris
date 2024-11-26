@@ -36,6 +36,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/v1/usuarios/").hasAnyRole("ADMIN", "SUPERADMIN")
                     .requestMatchers(HttpMethod.POST, "/v1/atividades/").hasAnyRole("ALUNO")
                     .requestMatchers(HttpMethod.GET, "/v1/atividades").hasAnyRole("ADMIN", "SUPERADMIN")
+                    .requestMatchers(HttpMethod.PATCH, "/v1/atividades/*/status").hasAnyRole("ORIENTADOR", "ADMIN", "SUPERADMIN")
                     .anyRequest().authenticated()
             )
             .sessionManagement(

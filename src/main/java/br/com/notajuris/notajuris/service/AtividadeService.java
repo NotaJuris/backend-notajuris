@@ -147,4 +147,20 @@ public class AtividadeService {
         return atividades;
 
     }
+
+    public boolean changeStatus(Integer atividadeId, StatusAtividade status){
+        
+        //pesquisa se a atividade existe
+        Optional<Atividade> atividadeOpt = repository.findById(atividadeId);
+        //se nao existir, lança erro
+        if(atividadeOpt.isEmpty()){
+            throw new BusinessException("Atividade não existe", HttpStatus.BAD_REQUEST);
+        }
+        //se existir, muda o status
+        Atividade atividade = atividadeOpt.get();
+        atividade.setStatus(status);
+        repository.save(atividade);
+        //retorna verdadeiro
+        return true;
+    }
 }

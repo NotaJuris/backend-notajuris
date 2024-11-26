@@ -2,7 +2,6 @@ package br.com.notajuris.notajuris.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.notajuris.notajuris.exceptions.BusinessException;
+import br.com.notajuris.notajuris.model.ChangeStatusDto;
 import br.com.notajuris.notajuris.model.atividade.Atividade;
 import br.com.notajuris.notajuris.model.atividade.AtividadeDto;
 import br.com.notajuris.notajuris.model.atividade.AtividadeResponseDto;
@@ -22,6 +22,7 @@ import br.com.notajuris.notajuris.service.UsuarioService;
 import jakarta.websocket.server.PathParam;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -103,9 +104,6 @@ public class AtividadeController {
         @PathParam("status") StatusAtividade status){
 
         List<Atividade> atividades = null;
-        System.out.println("id: "+usuarioId);
-        System.out.println("semestre: " +semestre);
-        System.out.println("status: " +status);
         
         if(status != null && semestre != null){
             //pesquisa por status e por semestre
@@ -125,7 +123,6 @@ public class AtividadeController {
             atividades = atividadeService.getAtividadesByUsuarioId(usuarioId);
         }
         
-        System.out.println("tamanho lista: "+atividades.size());
         if(atividades.isEmpty()){
             return ResponseEntity.ok(new ArrayList<AtividadeResponseDto>());
         } else {
@@ -147,4 +144,27 @@ public class AtividadeController {
         }
     }
     
+    //marcar atividade como reenviada
+    
+
+    //reenviar atividade
+
+    //alterar status
+    @PatchMapping("/{atividadeId}/status")
+    public ResponseEntity<String> changeAtividadeStatus(
+        @PathVariable Integer atividadeId,
+        @RequestBody ChangeStatusDto statusDto
+        ){
+
+        System.out.println("Id: "+atividadeId);
+        System.out.println("status: "+statusDto.status());
+        if(atividadeService.changeStatus(atividadeId, statusDto.status())){
+            System.out.println("mudou o status");
+            return ResponseEntity.ok("Status da atividade atualizado com sucesso.");
+        } else {
+            return ResponseEntity.badRequest().body("Não foi possível atualizar o status da atividade.");
+        }
+
+    }
+
 }
