@@ -148,6 +148,17 @@ public class AtividadeService {
 
     }
 
+    //solicita reenvio
+    public boolean solicitaReenvio(Integer atividadeId, String mensagem){
+        //pega a atividade
+        //atualiza o status para reenvio
+        //salva no banco
+        //solicita envio de notificacao para o usuario
+        return true;
+    }
+
+    //reenvia atividade
+
     public boolean changeStatus(Integer atividadeId, StatusAtividade status){
         
         //pesquisa se a atividade existe
