@@ -17,6 +17,7 @@ import br.com.notajuris.notajuris.model.atividade.StatusAtividade;
 import br.com.notajuris.notajuris.model.atividade.TipoAtividade;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.repository.AtividadeRepository;
+import br.com.notajuris.notajuris.service.NotificaoService;
 import jakarta.transaction.Transactional;
 
 @Transactional
@@ -31,6 +32,9 @@ public class AtividadeService {
 
     @Autowired
     AtendimentoService atendimentoService;
+
+    @Autowired
+    NotificaoService notificacaoService;
 
     //@Autowired
     //AtendimentoService atendimentoService;
@@ -151,9 +155,20 @@ public class AtividadeService {
     //solicita reenvio
     public boolean solicitaReenvio(Integer atividadeId, String mensagem){
         //pega a atividade
-        //atualiza o status para reenvio
-        //salva no banco
-        //solicita envio de notificacao para o usuario
+        Optional<Atividade> atividadeOpt = repository.findById(atividadeId);
+
+        if(atividadeOpt.isEmpty()){
+            throw new BusinessException("atividade inexistente", HttpStatus.NOT_FOUND);
+        } else {
+            //atualiza o status para reenvio
+            Atividade atividade = atividadeOpt.get();
+            atividade.setStatus(StatusAtividade.REENVIO);
+
+            //salva no banco
+            repository.save(atividade);
+            //solicita envio de notificacao para o usuario
+            notificacaoService.sendNotification("SOLICITAÇÃO DE REENVIO", mensagem, atividade.getUsuario());
+        }
         return true;
     }
 
