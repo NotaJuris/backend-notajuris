@@ -38,6 +38,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/v1/atividades").hasAnyRole("ORIENTADOR", "ADMIN", "SUPERADMIN")
                     .requestMatchers(HttpMethod.PATCH, "/v1/atividades/*/status").hasAnyRole("ORIENTADOR", "ADMIN", "SUPERADMIN")
                     .requestMatchers(HttpMethod.PATCH, "/v1/atividades/*/solicitar-reenvio").hasAnyRole("ORIENTADOR", "ADMIN", "SUPERADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/v1/atividades/*/reenviar").hasAnyRole("ALUNO", "ORIENTADOR", "ADMIN", "SUPERADMIN")
                     .anyRequest().authenticated()
             )
             .sessionManagement(

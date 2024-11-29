@@ -10,6 +10,7 @@ public record AtividadeResponseDto(
     LocalDate data_atividade,
     LocalTime hora_atividade,
     String aluno,
+    Integer carga_horaria,
     StatusAtividade status,
     String semestre,
     DetalhesAtividade detalhes

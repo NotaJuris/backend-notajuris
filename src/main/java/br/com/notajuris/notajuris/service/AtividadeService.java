@@ -1,7 +1,9 @@
 package br.com.notajuris.notajuris.service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,27 +158,82 @@ public class AtividadeService {
     public boolean solicitaReenvio(Integer atividadeId, String mensagem){
         //pega a atividade
         Optional<Atividade> atividadeOpt = repository.findById(atividadeId);
-        System.out.println("atividade queriada: "+ atividadeOpt.get());
 
         if(atividadeOpt.isEmpty()){
             throw new BusinessException("atividade inexistente", HttpStatus.NOT_FOUND);
         } else {
-            System.out.println("Atividade não é empty");
             //atualiza o status para reenvio
             Atividade atividade = atividadeOpt.get();
             atividade.setStatus(StatusAtividade.REENVIO);
 
             //salva no banco
             repository.save(atividade);
-            System.out.println("atividade atualizada REENVIO");
             //solicita envio de notificacao para o usuario
             notificacaoService.sendNotification("SOLICITAÇÃO DE REENVIO", mensagem, atividade.getUsuario());
-            System.out.println("Notificação enviada");
         }
         return true;
     }
 
     //reenvia atividade
+    public boolean reenviaAtividade(Integer atividadeId, AtividadeDto atividadeAtualizada){
+        //pesquisa atividade pelo id
+        Optional<Atividade> atividadeOpt = repository.findById(atividadeId);
+
+        if(atividadeOpt.isEmpty()){
+            throw new BusinessException("Atividade inexistente", HttpStatus.NOT_FOUND);
+        }
+
+        //verifica campos atualizados e os atualiza
+        Atividade atividade = atividadeOpt.get();
+
+        if(!Objects.equals(atividade.getStatus(), StatusAtividade.REENVIO)){
+            throw new BusinessException("Atividade não é elegível para reenvio", HttpStatus.BAD_REQUEST);
+        }
+
+        if(!Objects.equals(atividadeAtualizada.tipo(), atividade.getTipo())){
+            atividade.setTipo(atividadeAtualizada.tipo());
+            System.out.println("tipo atualizado");
+        }
+
+        if(!Objects.equals(atividadeAtualizada.descricao(), atividade.getDescricao())){
+            atividade.setDescricao(atividadeAtualizada.descricao());
+            System.out.println("descricao atualizado");
+        }
+
+        if(!Objects.equals(atividadeAtualizada.data_atividade(), atividade.getDataAtividade())){
+            atividade.setDataAtividade(atividadeAtualizada.data_atividade());
+            System.out.println("data_atividade atualizado");
+        }
+
+        if(!Objects.equals(atividadeAtualizada.hora_atividade(), atividade.getHoraAtividade())){
+            atividade.setHoraAtividade(atividadeAtualizada.hora_atividade());
+            System.out.println("hora_atividade atualizado");
+        
+        }
+        
+        if(!Objects.equals(atividadeAtualizada.carga_horaria(), atividade.getCargaHoraria())){
+            atividade.setCargaHoraria(atividadeAtualizada.carga_horaria());
+            System.out.println("carga_horaria atualizado");
+        }
+
+        if(!Objects.equals(atividadeAtualizada.semestre(), atividade.getSemestre())){
+            atividade.setSemestre(atividadeAtualizada.semestre());
+            System.out.println("semestre atualizado");
+        }
+        
+        if(!Objects.equals(atividadeAtualizada.detalhes(), atividade.getDetalhes())){
+            atividade.setDetalhes(atividadeAtualizada.detalhes());
+            System.out.println("detalhes atualizado");
+        }
+
+        atividade.setStatus(StatusAtividade.PENDENTE);
+
+        //salva no banco
+        repository.save(atividade);
+
+        notificacaoService.sendNotification("REENVIO DE ATIVIDADE", "Sua atividade foi reenviada com suceso!", atividade.getUsuario());
+        return true;
+    }
 
     public boolean changeStatus(Integer atividadeId, StatusAtividade status){
         
@@ -190,6 +247,8 @@ public class AtividadeService {
         Atividade atividade = atividadeOpt.get();
         atividade.setStatus(status);
         repository.save(atividade);
+
+        notificacaoService.sendNotification("ATUALIZAÇÃO DE STATUS", "Sua atividade teve o status alterado para: "+status, atividade.getUsuario());
         //retorna verdadeiro
         return true;
     }

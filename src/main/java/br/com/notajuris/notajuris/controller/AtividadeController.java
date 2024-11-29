@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -63,6 +64,7 @@ public class AtividadeController {
                 save.getDataAtividade(),
                 save.getHoraAtividade(), 
                 usuario.getNome(), 
+                save.getCargaHoraria(),
                 save.getStatus(),
                 save.getSemestre(),
                 save.getDetalhes()
@@ -88,6 +90,7 @@ public class AtividadeController {
                 atividade.getDataAtividade(),
                 atividade.getHoraAtividade(), 
                 atividade.getUsuario().getNome(), 
+                atividade.getCargaHoraria(),
                 atividade.getStatus(),
                 atividade.getSemestre(),
                 atividade.getDetalhes()
@@ -135,6 +138,7 @@ public class AtividadeController {
                 atividade.getDataAtividade(),
                 atividade.getHoraAtividade(),
                 atividade.getUsuario().getNome(),
+                atividade.getCargaHoraria(),
                 atividade.getStatus(),
                 atividade.getSemestre(),
                 atividade.getDetalhes()
@@ -144,13 +148,10 @@ public class AtividadeController {
             return ResponseEntity.ok(dtos);
         }
     }
-    
+
     //solicitar atividade como reenviada
     @PatchMapping("/{atividadeId}/solicitar-reenvio")
     public ResponseEntity<String> requestReenvio(@PathVariable Integer atividadeId, @RequestBody NotificacaoMessageDto mensagem){
-        
-        System.out.println("AtividadeId: "+atividadeId);
-        System.out.println("mensagem: "+mensagem.mensagem());
 
         boolean solicitado = atividadeService.solicitaReenvio(atividadeId, mensagem.mensagem());
 
@@ -164,6 +165,17 @@ public class AtividadeController {
     }
 
     //reenviar atividade
+    @PutMapping("/{atividadeId}/reenviar-atividade")
+    public ResponseEntity<String> reenviarAtividade(@PathVariable Integer atividadeId, @RequestBody AtividadeDto dto){
+
+        boolean reenviado = atividadeService.reenviaAtividade(atividadeId, dto);
+
+        if(!reenviado){
+            throw new BusinessException("Não foi possível reenviar a atividade, contate o administrador", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return ResponseEntity.ok("atividade foi reenviada com sucesso");
+    }
 
     //alterar status
     @PatchMapping("/{atividadeId}/status")

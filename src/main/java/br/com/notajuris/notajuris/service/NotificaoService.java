@@ -11,7 +11,7 @@ import br.com.notajuris.notajuris.repository.NotificacaoRepository;
 public class NotificaoService {
 
     @Autowired
-    NotificacaoRepository notificacaoRepository;
+    private NotificacaoRepository notificacaoRepository;
 
     public void sendNotification(String titulo, String mensagem, Usuario usuario) {
         
