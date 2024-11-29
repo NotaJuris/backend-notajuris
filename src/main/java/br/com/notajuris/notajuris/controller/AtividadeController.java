@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.notajuris.notajuris.exceptions.BusinessException;
 import br.com.notajuris.notajuris.model.ChangeStatusDto;
+import br.com.notajuris.notajuris.model.NotificacaoMessageDto;
 import br.com.notajuris.notajuris.model.atividade.Atividade;
 import br.com.notajuris.notajuris.model.atividade.AtividadeDto;
 import br.com.notajuris.notajuris.model.atividade.AtividadeResponseDto;
@@ -144,8 +145,23 @@ public class AtividadeController {
         }
     }
     
-    //marcar atividade como reenviada
-    
+    //solicitar atividade como reenviada
+    @PatchMapping("/{atividadeId}/solicitar-reenvio")
+    public ResponseEntity<String> requestReenvio(@PathVariable Integer atividadeId, @RequestBody NotificacaoMessageDto mensagem){
+        
+        System.out.println("AtividadeId: "+atividadeId);
+        System.out.println("mensagem: "+mensagem.mensagem());
+
+        boolean solicitado = atividadeService.solicitaReenvio(atividadeId, mensagem.mensagem());
+
+        System.out.println("Solicitado? "+solicitado);
+        if(!solicitado){
+            throw new BusinessException("Não foi possível solicitar o reenvio, contate a administração", HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return ResponseEntity.ok("Reenvio solicitado com sucesso");
+        }
+
+    }
 
     //reenviar atividade
 

@@ -156,18 +156,22 @@ public class AtividadeService {
     public boolean solicitaReenvio(Integer atividadeId, String mensagem){
         //pega a atividade
         Optional<Atividade> atividadeOpt = repository.findById(atividadeId);
+        System.out.println("atividade queriada: "+ atividadeOpt.get());
 
         if(atividadeOpt.isEmpty()){
             throw new BusinessException("atividade inexistente", HttpStatus.NOT_FOUND);
         } else {
+            System.out.println("Atividade não é empty");
             //atualiza o status para reenvio
             Atividade atividade = atividadeOpt.get();
             atividade.setStatus(StatusAtividade.REENVIO);
 
             //salva no banco
             repository.save(atividade);
+            System.out.println("atividade atualizada REENVIO");
             //solicita envio de notificacao para o usuario
             notificacaoService.sendNotification("SOLICITAÇÃO DE REENVIO", mensagem, atividade.getUsuario());
+            System.out.println("Notificação enviada");
         }
         return true;
     }

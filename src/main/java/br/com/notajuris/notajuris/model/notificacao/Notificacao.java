@@ -1,7 +1,5 @@
 package br.com.notajuris.notajuris.model.notificacao;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,10 +10,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,8 +39,7 @@ public class Notificacao {
 
     private String mensagem;
 
-    @ColumnDefault(value = "true")
-    Boolean visto = true;
+    Boolean visto;
 
     @ManyToOne
     @JoinColumn(name = "fk_usuario_id", referencedColumnName = "usuario_id")

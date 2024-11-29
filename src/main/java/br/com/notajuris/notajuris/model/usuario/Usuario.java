@@ -79,13 +79,20 @@ public class Usuario implements UserDetails{
                 return List.of(
                     new SimpleGrantedAuthority("ROLE_SUPERADMIN"),
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_ORIENTADOR"),
                     new SimpleGrantedAuthority("ROLE_ALUNO")
                 );
             case ADMIN:
                 return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_ORIENTADOR"),
                     new SimpleGrantedAuthority("ROLE_ALUNO")
                 );
+            case ORIENTADOR:
+            return List.of(
+                new SimpleGrantedAuthority("ROLE_ORIENTADOR"),
+                new SimpleGrantedAuthority("ROLE_ALUNO")
+            );
             default:
                 return List.of(
                     new SimpleGrantedAuthority("ROLE_ALUNO")

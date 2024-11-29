@@ -111,6 +111,8 @@ public class AtividadeServiceTest {
     @Test
     @DisplayName("deve criar uma atividade do tipo PLANTAO, PENDENTE")
     public void createAtividadePlantao(){
+        System.out.println("Executando teste de cadastro de atividade tipo PLANTAO");
+
         //quando receber um AtividadeDto
         AtividadeDto dto = new AtividadeDto(
             TipoAtividade.PLANTAO,
@@ -126,6 +128,9 @@ public class AtividadeServiceTest {
 
         //entao chama o serviço e retorna uma atividade do tipo PLANTAO e PENDENTE
         Atividade atividade = atividadeService.save(dto, usuarioTeste);
+
+        System.out.println(atividade.getTipo());
+        System.out.println(atividade.getUsuario().getNome());
 
         Assertions.assertTrue(atividade.getTipo().equals(TipoAtividade.PLANTAO));
         Assertions.assertTrue(atividade.getStatus().equals(StatusAtividade.PENDENTE));
@@ -180,6 +185,8 @@ public class AtividadeServiceTest {
     @DisplayName("deve retornar uma lista de atividades ao id 103 do usuario")
     public void getAtividadesCurrentUsuario(){
 
+        System.out.println("Executando testes de lista de atividades pelo usuário");
+
         List<Atividade> atividadesSet = List.of(
             Atividade.builder()
             .id(1)
@@ -215,9 +222,12 @@ public class AtividadeServiceTest {
         List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioTeste.getId());
 
         //entao retorna lista de atividades referentes a esse usuario
+
         atividades.stream().forEach(
             atividade -> {
-                System.out.println(atividade.getTipo());
+                System.out.println(atividade.getStatus());
+                System.out.println(atividade.getUsuario().getNome());
+
                 Assertions.assertEquals(atividade.getUsuario(), usuarioTeste);
             }
         );
@@ -347,6 +357,9 @@ public class AtividadeServiceTest {
     @DisplayName("deve retornar uma lista de atividade do usuário 103, de status aceito e do semestre 2025.1")
     public void getAtividadesByIsAndStatusAndSemestre(){
 
+        System.out.println("Executando testes de lista de atividades pelo usuário de teste e com filtro de semstre e status");
+
+
         List<Atividade> atividadeList = List.of(
             Atividade.builder()
             .id(1)
@@ -403,8 +416,12 @@ public class AtividadeServiceTest {
         List<Atividade> atividades = atividadeService.getAtividadesByUsuarioId(usuarioId, status, semestre);
 
         //retorna lista de atividades em que cada atividade possui o usuario id correspondente, status aceito e semestre 2025.2
+        
+
+        
         atividades.stream()
         .forEach(atividade -> {
+
             Assertions.assertEquals(atividade.getUsuario(), usuarioTeste);
             Assertions.assertEquals(atividade.getStatus(), status);
             Assertions.assertEquals(atividade.getSemestre(), semestre);
