@@ -11,6 +11,7 @@ import br.com.notajuris.notajuris.exceptions.BusinessException;
 import br.com.notajuris.notajuris.model.notificacao.Notificacao;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
 import br.com.notajuris.notajuris.repository.NotificacaoRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class NotificaoService {
@@ -43,6 +44,21 @@ public class NotificaoService {
         Optional<List<Notificacao>> byDestinatario = notificacaoRepository.findByDestinatario(destinatario);
 
         return byDestinatario.orElseThrow(() -> new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND));
+    }
+
+    @Transactional
+    public boolean setNotificacaoVisto(Integer notificacaoId){
+        //procura notificacao
+        Optional<Notificacao> notificacaoOpt = notificacaoRepository.findById(notificacaoId);
+
+        if(notificacaoOpt.isEmpty()){
+            throw new BusinessException("Notificacao nao encontrada", HttpStatus.NOT_FOUND);
+        }
+        Notificacao notificacao = notificacaoOpt.get();
+
+        notificacao.setVisto(true);
+        notificacaoRepository.delete(notificacao);
+        return true;
     }
     
     

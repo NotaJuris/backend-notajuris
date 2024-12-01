@@ -3,12 +3,15 @@ package br.com.notajuris.notajuris.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.notajuris.notajuris.exceptions.BusinessException;
 import br.com.notajuris.notajuris.model.notificacao.Notificacao;
 import br.com.notajuris.notajuris.model.notificacao.NotificacaoDto;
 import br.com.notajuris.notajuris.model.usuario.Usuario;
@@ -51,6 +54,17 @@ public class NotificacaoController {
         return ResponseEntity.ok(dtoList);
 
         
+    }
+
+    @PatchMapping("/{notificacaoId}/visualizar")
+    public ResponseEntity<String> setNotificacaoVisto(@PathVariable Integer notificacaoId){
+        
+        boolean setado = notificacaoService.setNotificacaoVisto(notificacaoId);
+
+        if(setado){
+            return ResponseEntity.ok("Notificacao visualizada");
+        }
+        throw new BusinessException("ocorreu um erro ao visualizar a notificacao, contate um administrador", HttpStatus.NOT_FOUND);
     }
 
 }
