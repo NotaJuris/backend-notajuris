@@ -1,5 +1,6 @@
 package br.com.notajuris.notajuris.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class UsuarioService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    public List<Usuario> getAllUsers(){
+        Optional<List<Usuario>> users = Optional.of(repository.findAll());
+        return users.orElseThrow(() -> new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND));
+    }
 
     public Usuario getById(Integer id){
         Optional<Usuario> usuario = repository.findById(id);

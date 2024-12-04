@@ -43,7 +43,7 @@ public class NotificaoService {
 
         Optional<List<Notificacao>> byDestinatario = notificacaoRepository.findByDestinatario(destinatario);
 
-        return byDestinatario.orElseThrow(() -> new BusinessException("Usuario nao encontrado ou nao existe", HttpStatus.NOT_FOUND));
+        return byDestinatario.orElseThrow(() -> new BusinessException("Este usuario nao tem notificacoes", HttpStatus.NOT_FOUND));
     }
 
     @Transactional

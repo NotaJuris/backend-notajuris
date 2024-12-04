@@ -9,6 +9,8 @@ import br.com.notajuris.notajuris.model.usuario.UsuarioResponseDto;
 import br.com.notajuris.notajuris.service.TokenService;
 import br.com.notajuris.notajuris.service.UsuarioService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,26 @@ public class UsuarioController {
 
     @Autowired
     UsuarioService usuarioService;
+
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponseDto>> getAllUsuarios(){
+        List<Usuario> allUsers = usuarioService.getAllUsers();
+
+        List<UsuarioResponseDto> dtos = allUsers.stream()
+            .map((u) -> new UsuarioResponseDto(
+                u.getId(),
+                u.getNome(),
+                u.getMatricula(),
+                u.getPeriodo(),
+                u.getEmail(),
+                u.getTelefone(),
+                u.getCargo().getNome().toString()
+            )).toList();
+
+        return ResponseEntity.ok(dtos);
+
+        
+    }
 
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDto> getCurrentUsuario(@RequestHeader("Authorization") String token) {
